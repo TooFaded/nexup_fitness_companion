@@ -1,19 +1,19 @@
-import type { Metadata } from 'next'
-import '@/styles/globals.css'
+import "styles/globals.css";
+import { Inter } from "next/font/google";
+const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: 'Nexup Fitness Companion',
-  description: 'Know what\'s next in your fitness journey',
-}
+export const metadata = { title: "Nexup", description: "Know what’s next." };
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={inter.className + " bg-white text-brand-charcoal"}>
+        {children}
+      </body>
     </html>
-  )
+  );
 }
