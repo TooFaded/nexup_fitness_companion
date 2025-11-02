@@ -79,9 +79,9 @@ export function ExerciseCard({ exercise, workoutId }: ExerciseCardProps) {
           variant="ghost"
           size="icon"
           onClick={handleDeleteExercise}
-          className="text-gray-400 hover:text-red-500"
+          className="h-11 w-11 text-gray-400 hover:text-red-500 hover:bg-red-50"
         >
-          <Trash2 className="h-4 w-4" />
+          <Trash2 className="h-5 w-5" />
         </Button>
       </div>
 
@@ -96,13 +96,14 @@ export function ExerciseCard({ exercise, workoutId }: ExerciseCardProps) {
       {exercise.sets && exercise.sets.length > 0 && (
         <div className="mb-2">
           <div className="flex items-center gap-2 px-2 pb-2">
-            <div className="w-8" />
+            <div className="w-10" />
             <div className="flex-1 grid grid-cols-3 gap-2 text-xs font-semibold text-gray-500 uppercase">
               <div className="text-center">Weight</div>
               <div className="text-center">Reps</div>
               <div className="text-center">RPE</div>
             </div>
-            <div className="w-9" />
+            <div className="w-11" />
+            <div className="w-11" />
           </div>
         </div>
       )}
@@ -123,12 +124,11 @@ export function ExerciseCard({ exercise, workoutId }: ExerciseCardProps) {
       {/* Add Set Button */}
       <Button
         variant="outline"
-        className="w-full mt-3"
-        size="sm"
+        className="w-full mt-3 h-11 text-base"
         onClick={handleAddSet}
         disabled={isAddingSet}
       >
-        <Plus className="h-4 w-4 mr-2" />
+        <Plus className="h-5 w-5 mr-2" />
         {isAddingSet ? "Adding..." : "Add Set"}
       </Button>
     </div>

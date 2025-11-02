@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client"; // <-- use client here!
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
@@ -22,24 +22,25 @@ export default function SignupPage() {
       },
     });
 
-    console.log("data:", data);
-    console.log("error:", error);
-
     if (error) {
       setError(error.message);
       return "error";
     }
 
-    // Check if user already exists (session is null but user exists)
-    if (data.user && !data.session) {
+    // Check if user already exists (identities array is empty)
+    if (
+      data.user &&
+      data.user.identities &&
+      data.user.identities.length === 0
+    ) {
       setError(
         "An account with this email already exists. Please sign in or check your email for confirmation."
       );
       return "error";
     }
 
-    // If user is created successfully with a session
-    if (data.user && data.session) {
+    // If user was created (either with or without session, depending on email confirmation settings)
+    if (data.user) {
       return "success";
     }
 
@@ -69,13 +70,7 @@ export default function SignupPage() {
             e.preventDefault();
             const result = await signup(new FormData(e.currentTarget));
 
-            // Log the result and wait before redirecting
-            console.log("Result:", result);
-
-            // Only redirect if signup was successful
             if (result === "success") {
-              // Add a delay so you can see the console
-              await new Promise((resolve) => setTimeout(resolve, 5000)); // 3 second delay
               window.location.href = "/check-email";
             }
           }}
@@ -86,6 +81,7 @@ export default function SignupPage() {
             type="password"
             placeholder="Password"
             required
+            minLength={6}
           />
           <Button
             type="submit"
@@ -94,7 +90,9 @@ export default function SignupPage() {
             Sign Up
           </Button>
         </form>
-        {error && <div className="mt-4 text-red-600 text-center">{error}</div>}
+        {error && (
+          <div className="mt-4 text-red-600 text-center text-sm">{error}</div>
+        )}
         <div className="mt-6 text-center">
           <span className="text-gray-500">Already have an account?</span>{" "}
           <a

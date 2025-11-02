@@ -6,21 +6,26 @@ import { createClient } from "@/lib/supabase/server";
 
 export async function getRecentWorkouts(limit: number = 10) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return [];
 
   const { data, error } = await supabase
     .from("workouts")
-    .select(`
+    .select(
+      `
       id,
       name,
       date,
+      time_started,
       duration,
       exercises (
         id
       )
-    `)
+    `
+    )
     .eq("user_id", user.id)
     .order("date", { ascending: false })
     .limit(limit);
@@ -34,6 +39,7 @@ export async function getRecentWorkouts(limit: number = 10) {
     id: workout.id,
     name: workout.name,
     date: new Date(workout.date).toLocaleDateString(),
+    time_started: workout.time_started,
     duration: workout.duration || 0,
     exercises: workout.exercises?.length || 0,
   }));
@@ -41,19 +47,23 @@ export async function getRecentWorkouts(limit: number = 10) {
 
 export async function getWorkoutById(workoutId: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return null;
 
   const { data, error } = await supabase
     .from("workouts")
-    .select(`
+    .select(
+      `
       *,
       exercises (
         *,
         sets (*)
       )
-    `)
+    `
+    )
     .eq("id", workoutId)
     .eq("user_id", user.id)
     .single();
@@ -72,7 +82,9 @@ export async function getWorkoutById(workoutId: string) {
 
 export async function getWorkoutsThisWeek() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return 0;
 
@@ -96,7 +108,9 @@ export async function getWorkoutsThisWeek() {
 
 export async function getTotalVolumeThisWeek() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return 0;
 
@@ -155,7 +169,9 @@ export async function getTotalVolumeThisWeek() {
 
 export async function getAverageDuration() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return 0;
 
@@ -174,13 +190,18 @@ export async function getAverageDuration() {
     return 0;
   }
 
-  const totalDuration = data.reduce((sum, workout) => sum + (workout.duration || 0), 0);
+  const totalDuration = data.reduce(
+    (sum, workout) => sum + (workout.duration || 0),
+    0
+  );
   return Math.round(totalDuration / data.length);
 }
 
 export async function getCurrentStreak() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return 0;
 
@@ -202,7 +223,9 @@ export async function getCurrentStreak() {
     const workoutDate = new Date(workout.date);
     workoutDate.setHours(0, 0, 0, 0);
 
-    const diffDays = Math.floor((currentDate.getTime() - workoutDate.getTime()) / (1000 * 60 * 60 * 24));
+    const diffDays = Math.floor(
+      (currentDate.getTime() - workoutDate.getTime()) / (1000 * 60 * 60 * 24)
+    );
 
     if (diffDays === streak) {
       streak++;
@@ -223,18 +246,22 @@ export async function getCurrentStreak() {
 
 export async function getUserTemplates() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return [];
 
   const { data, error } = await supabase
     .from("workout_templates")
-    .select(`
+    .select(
+      `
       *,
       template_exercises (
         *
       )
-    `)
+    `
+    )
     .eq("user_id", user.id)
     .order("name");
 
@@ -248,18 +275,22 @@ export async function getUserTemplates() {
 
 export async function getTemplateById(templateId: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return null;
 
   const { data, error } = await supabase
     .from("workout_templates")
-    .select(`
+    .select(
+      `
       *,
       template_exercises (
         *
       )
-    `)
+    `
+    )
     .eq("id", templateId)
     .eq("user_id", user.id)
     .single();
@@ -278,7 +309,9 @@ export async function getTemplateById(templateId: string) {
 
 export async function getPersonalRecords(exerciseName?: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return [];
 

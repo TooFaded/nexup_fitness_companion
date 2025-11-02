@@ -19,13 +19,15 @@ export async function createWorkout({ name, templateId }: CreateWorkoutParams) {
   }
 
   // Create the workout
+  const now = new Date().toISOString();
   const { data: workout, error: workoutError } = await supabase
     .from("workouts")
     .insert({
       user_id: user.id,
       name: name || "Quick Workout",
       template_id: templateId !== "blank" ? templateId : null,
-      date: new Date().toISOString(),
+      date: now,
+      time_started: now,
     })
     .select()
     .single();

@@ -12,6 +12,7 @@ interface Workout {
   id: string;
   name: string;
   date: string;
+  time_started: string;
   duration: number;
   exercises: number;
 }
@@ -49,7 +50,16 @@ export default function RecentWorkouts({ workouts = [] }: RecentWorkoutsProps) {
                     <h4 className="font-semibold text-brand-charcoal">
                       {workout.name}
                     </h4>
-                    <p className="text-xs text-gray-500">{workout.date}</p>
+                    <p className="text-xs text-gray-500">
+                      {workout.date} •{" "}
+                      {new Date(workout.time_started).toLocaleTimeString(
+                        "en-US",
+                        {
+                          hour: "numeric",
+                          minute: "2-digit",
+                        }
+                      )}
+                    </p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-medium text-gray-700">

@@ -9,7 +9,7 @@ import { FinishWorkoutButton } from "@/components/workout/FinishWorkoutButton";
 import { DeleteWorkoutButton } from "@/components/workout/DeleteWorkoutButton";
 
 // Force dynamic rendering
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 interface WorkoutPageProps {
@@ -38,13 +38,14 @@ interface Workout {
   id: string;
   name: string;
   date: string;
+  time_started: string;
   duration: number | null;
   notes: string | null;
 }
 
 export default async function WorkoutPage({ params }: WorkoutPageProps) {
   const supabase = await createClient();
-  
+
   // Await params in Next.js 15
   const { id } = await Promise.resolve(params);
 
@@ -122,6 +123,11 @@ export default async function WorkoutPage({ params }: WorkoutPageProps) {
                     weekday: "long",
                     month: "long",
                     day: "numeric",
+                  })}{" "}
+                  •{" "}
+                  {new Date(workoutData.time_started).toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "2-digit",
                   })}
                 </p>
               </div>
@@ -133,7 +139,7 @@ export default async function WorkoutPage({ params }: WorkoutPageProps) {
               />
               <FinishWorkoutButton
                 workoutId={workoutData.id}
-                startTime={workoutData.date}
+                startTime={workoutData.time_started}
               />
             </div>
           </div>
