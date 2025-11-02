@@ -32,7 +32,7 @@ export function ExerciseCard({ exercise, workoutId }: ExerciseCardProps) {
 
   const handleAddSet = async () => {
     setIsAddingSet(true);
-    
+
     // Get the last set's values to use as defaults
     const lastSet = exercise.sets?.[exercise.sets.length - 1];
     const defaultWeight = lastSet?.weight || 0;
@@ -50,7 +50,7 @@ export function ExerciseCard({ exercise, workoutId }: ExerciseCardProps) {
     if (result.error) {
       console.error("Failed to add set:", result.error);
     }
-    
+
     setIsAddingSet(false);
   };
 

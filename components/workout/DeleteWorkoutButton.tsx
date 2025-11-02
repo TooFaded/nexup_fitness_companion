@@ -46,7 +46,11 @@ export function DeleteWorkoutButton({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="text-gray-400 hover:text-red-500">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-gray-400 hover:text-red-500"
+        >
           <Trash2 className="h-5 w-5" />
         </Button>
       </DialogTrigger>
@@ -54,7 +58,9 @@ export function DeleteWorkoutButton({
         <DialogHeader>
           <DialogTitle>Delete Workout?</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete "{workoutName}"? This action cannot be undone. All exercises and sets will be permanently removed.
+            Are you sure you want to delete &quot;{workoutName}&quot;? This
+            action cannot be undone. All exercises and sets will be permanently
+            removed.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="gap-2 sm:gap-0">

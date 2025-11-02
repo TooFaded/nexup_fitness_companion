@@ -60,7 +60,10 @@ export async function createWorkout({ name, templateId }: CreateWorkoutParams) {
         console.error("Error creating exercises:", exercisesError);
         // Continue anyway - user can add exercises manually
       } else {
-        console.log("Successfully created exercises:", exercisesToInsert.length);
+        console.log(
+          "Successfully created exercises:",
+          exercisesToInsert.length
+        );
       }
     }
   }
