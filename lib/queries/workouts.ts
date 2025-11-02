@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 // ================================================
 
 export async function getRecentWorkouts(limit: number = 10) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return [];
@@ -40,7 +40,7 @@ export async function getRecentWorkouts(limit: number = 10) {
 }
 
 export async function getWorkoutById(workoutId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return null;
@@ -71,7 +71,7 @@ export async function getWorkoutById(workoutId: string) {
 // ================================================
 
 export async function getWorkoutsThisWeek() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return 0;
@@ -95,7 +95,7 @@ export async function getWorkoutsThisWeek() {
 }
 
 export async function getTotalVolumeThisWeek() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return 0;
@@ -154,7 +154,7 @@ export async function getTotalVolumeThisWeek() {
 }
 
 export async function getAverageDuration() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return 0;
@@ -179,7 +179,7 @@ export async function getAverageDuration() {
 }
 
 export async function getCurrentStreak() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return 0;
@@ -222,7 +222,7 @@ export async function getCurrentStreak() {
 // ================================================
 
 export async function getUserTemplates() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return [];
@@ -247,7 +247,7 @@ export async function getUserTemplates() {
 }
 
 export async function getTemplateById(templateId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return null;
@@ -277,7 +277,7 @@ export async function getTemplateById(templateId: string) {
 // ================================================
 
 export async function getPersonalRecords(exerciseName?: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) return [];

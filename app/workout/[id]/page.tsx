@@ -43,7 +43,7 @@ interface Workout {
 }
 
 export default async function WorkoutPage({ params }: WorkoutPageProps) {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   // Await params in Next.js 15
   const { id } = await Promise.resolve(params);

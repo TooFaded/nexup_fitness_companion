@@ -9,7 +9,7 @@ interface CreateWorkoutParams {
 }
 
 export async function createWorkout({ name, templateId }: CreateWorkoutParams) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -76,7 +76,7 @@ export async function createWorkout({ name, templateId }: CreateWorkoutParams) {
 }
 
 export async function deleteWorkout(workoutId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -104,7 +104,7 @@ export async function updateWorkoutDuration(
   workoutId: string,
   duration: number
 ) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -132,7 +132,7 @@ export async function addExercise(
   exerciseName: string,
   notes?: string
 ) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -173,7 +173,7 @@ export async function addExercise(
 }
 
 export async function deleteExercise(exerciseId: string, workoutId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -201,7 +201,7 @@ export async function updateExerciseNotes(
   workoutId: string,
   notes: string
 ) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -231,7 +231,7 @@ export async function addSet(
   reps: number,
   rpe?: number
 ) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -276,7 +276,7 @@ export async function updateSet(
   workoutId: string,
   data: { weight?: number; reps?: number; rpe?: number }
 ) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -297,7 +297,7 @@ export async function updateSet(
 }
 
 export async function deleteSet(setId: string, workoutId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -318,7 +318,7 @@ export async function deleteSet(setId: string, workoutId: string) {
 }
 
 export async function finishWorkout(workoutId: string, startTime: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

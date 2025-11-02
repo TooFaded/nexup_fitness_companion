@@ -17,7 +17,7 @@ import {
 } from "@/lib/queries/workouts";
 
 export default async function Home() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -28,7 +28,7 @@ export default async function Home() {
 
   async function signOut() {
     "use server";
-    const supabase = createClient();
+    const supabase = await createClient();
     await supabase.auth.signOut();
     redirect("/login");
   }
