@@ -15,8 +15,8 @@ export default function CheckEmailPage() {
           Check your email
         </h1>
         <p className="text-gray-500 mb-6 text-center">
-          We've sent you a confirmation link. Please check your inbox and follow
-          the instructions to activate your account.
+          We&apos;ve sent you a confirmation link. Please check your inbox and
+          follow the instructions to activate your account.
         </p>
         <a
           href="/login"
