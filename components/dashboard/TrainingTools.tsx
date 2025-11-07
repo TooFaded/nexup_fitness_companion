@@ -188,7 +188,10 @@ export default function TrainingTools({ onSelectTool }: TrainingToolsProps) {
                 Plates per side:
               </div>
               {plateSizes.map((size) => (
-                <div key={size} className="flex justify-between items-center text-base py-1">
+                <div
+                  key={size}
+                  className="flex justify-between items-center text-base py-1"
+                >
                   <span className="text-foreground">{size} lb plates:</span>
                   <span className="font-bold text-lg text-brand-mint">
                     {plateResult[size]}
