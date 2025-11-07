@@ -55,7 +55,7 @@ export function NewWorkoutModal({
     if (result.workoutId) {
       onOpenChange(false);
       // Small delay to ensure exercises are inserted
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       router.push(`/workout/${result.workoutId}`);
       router.refresh();
     }
@@ -79,7 +79,7 @@ export function NewWorkoutModal({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-card dark:bg-dark-bg">
         <DialogHeader>
           <DialogTitle className="text-2xl flex items-center gap-2">
             <Dumbbell className="h-6 w-6 text-brand-ember" />
@@ -117,7 +117,7 @@ export function NewWorkoutModal({
               className="space-y-2"
             >
               {/* Blank Workout Option */}
-              <div className="flex items-center space-x-3 rounded-lg border border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition-colors">
+              <div className="flex items-center space-x-3 rounded-lg border border-border bg-card dark:bg-dark-card p-4 hover:bg-accent cursor-pointer transition-colors">
                 <RadioGroupItem value="blank" id="blank" />
                 <Label
                   htmlFor="blank"
@@ -126,10 +126,10 @@ export function NewWorkoutModal({
                   <div className="flex items-center gap-2">
                     <span className="text-xl">✨</span>
                     <div>
-                      <p className="font-semibold text-gray-900">
+                      <p className="font-semibold text-foreground">
                         Blank Workout
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-muted-foreground">
                         Start from scratch and add exercises as you go
                       </p>
                     </div>
@@ -141,7 +141,7 @@ export function NewWorkoutModal({
               {templates.map((template) => (
                 <div
                   key={template.id}
-                  className="flex items-center space-x-3 rounded-lg border border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition-colors"
+                  className="flex items-center space-x-3 rounded-lg border border-border bg-card dark:bg-dark-card p-4 hover:bg-accent cursor-pointer transition-colors"
                 >
                   <RadioGroupItem value={template.id} id={template.id} />
                   <Label
@@ -153,11 +153,11 @@ export function NewWorkoutModal({
                         {getTemplateIcon(template.name)}
                       </span>
                       <div>
-                        <p className="font-semibold text-gray-900">
+                        <p className="font-semibold text-foreground">
                           {template.name}
                         </p>
                         {template.description && (
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-muted-foreground">
                             {template.description}
                           </p>
                         )}
@@ -182,7 +182,7 @@ export function NewWorkoutModal({
           </Button>
           <Button
             onClick={handleCreateWorkout}
-            className="flex-1 bg-brand-ember hover:bg-brand-ember/90"
+            className="flex-1 bg-brand-ember hover:bg-brand-ember/90 text-white"
             disabled={isCreating}
           >
             {isCreating ? (

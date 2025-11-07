@@ -49,14 +49,21 @@ export default function SignupPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 flex flex-col items-center">
+    <main className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="w-full max-w-md bg-card rounded-xl shadow-lg p-8 flex flex-col items-center">
         <Image
           src="/nexup_logo.svg"
           alt="Nexup Logo"
           width={64}
           height={64}
-          className="mb-6"
+          className="mb-6 dark:hidden"
+        />
+        <Image
+          src="/nexup-white.svg"
+          alt="Nexup Logo"
+          width={64}
+          height={64}
+          className="mb-6 hidden dark:block"
         />
         <h1 className="text-2xl font-bold text-brand-charcoal mb-2 text-center">
           Create your Nexup account

@@ -20,7 +20,7 @@ export function FinishWorkoutButton({
 
   const handleFinish = async () => {
     setIsFinishing(true);
-    
+
     const result = await finishWorkout(workoutId, startTime);
 
     if (result.error) {
@@ -37,16 +37,16 @@ export function FinishWorkoutButton({
     <Button
       onClick={handleFinish}
       disabled={isFinishing}
-      className="bg-brand-ember hover:bg-brand-ember/90"
+      className="bg-brand-ember hover:bg-brand-ember/90 dark:text-gray-100"
     >
       {isFinishing ? (
         <>
-          <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+          <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2 dark:text-gray-100" />
           Finishing...
         </>
       ) : (
         <>
-          <Save className="h-4 w-4 mr-2" />
+          <Save className="h-4 w-4 mr-2 dark:text-gray-100" />
           Finish
         </>
       )}

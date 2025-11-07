@@ -103,9 +103,9 @@ export default async function WorkoutPage({ params }: WorkoutPageProps) {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div className="bg-card border-b border-border sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -115,7 +115,7 @@ export default async function WorkoutPage({ params }: WorkoutPageProps) {
                 </Button>
               </Link>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                   {workoutData.name}
                 </h1>
                 <p className="text-sm text-gray-500">
@@ -125,10 +125,13 @@ export default async function WorkoutPage({ params }: WorkoutPageProps) {
                     day: "numeric",
                   })}{" "}
                   •{" "}
-                  {new Date(workoutData.time_started).toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "2-digit",
-                  })}
+                  {new Date(workoutData.time_started).toLocaleTimeString(
+                    "en-US",
+                    {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    }
+                  )}
                 </p>
               </div>
             </div>
@@ -151,21 +154,21 @@ export default async function WorkoutPage({ params }: WorkoutPageProps) {
         <div className="space-y-4">
           {/* Exercises List */}
           {exercisesData.length === 0 ? (
-            <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+            <div className="bg-card rounded-lg border border-border p-12 text-center">
               <div className="flex flex-col items-center gap-3">
-                <div className="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center">
-                  <Plus className="h-8 w-8 text-gray-400" />
+                <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center">
+                  <Plus className="h-8 w-8 text-muted-foreground" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-foreground">
                   No exercises yet
                 </h3>
-                <p className="text-sm text-gray-500 max-w-sm">
+                <p className="text-sm text-muted-foreground max-w-sm">
                   Add your first exercise to start tracking your workout
                 </p>
                 <AddExerciseDialog
                   workoutId={workoutData.id}
                   trigger={
-                    <Button className="mt-2 bg-brand-ember hover:bg-brand-ember/90">
+                    <Button className="mt-2 bg-brand-ember hover:bg-brand-ember/90 dark:text-gray-100">
                       <Plus className="h-4 w-4 mr-2" />
                       Add Exercise
                     </Button>

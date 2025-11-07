@@ -4,9 +4,9 @@
 
 @layer base {
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: theme('colors.brand.mist');
-    color: theme('colors.brand.charcoal');
+    @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, sans-serif;
   }
   :root {
     --background: 0 0% 100%;
@@ -19,7 +19,7 @@
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
-    
+
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
     --accent: 0 0% 96.1%;
@@ -37,24 +37,24 @@
     --radius: 0.5rem;
   }
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    --background: 214 31% 15%;
+    --foreground: 0 0% 95%;
+    --card: 214 31% 17%;
+    --card-foreground: 0 0% 95%;
+    --popover: 214 31% 17%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 0% 95%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 214 28% 20%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 214 28% 20%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 214 25% 23%;
+    --accent-foreground: 0 0% 95%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
+    --border: 214 25% 28%;
+    --input: 214 28% 20%;
     --ring: 0 0% 83.1%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -63,8 +63,6 @@
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {

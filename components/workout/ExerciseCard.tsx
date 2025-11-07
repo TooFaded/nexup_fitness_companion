@@ -70,7 +70,7 @@ export function ExerciseCard({ exercise, workoutId }: ExerciseCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4">
+    <div className="bg-card rounded-lg border border-border p-4">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-lg font-semibold text-gray-900">
           {exercise.exercise_name}

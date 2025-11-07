@@ -18,7 +18,7 @@ export default function QuickStats({
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-gray-600">
+          <CardTitle className="text-sm font-medium text-muted-foreground">
             This Week
           </CardTitle>
         </CardHeader>
@@ -26,8 +26,10 @@ export default function QuickStats({
           <div className="flex items-center gap-2">
             <Dumbbell className="h-5 w-5 text-brand-ember" />
             <div>
-              <p className="text-2xl font-bold text-brand-charcoal">{workoutsThisWeek}</p>
-              <p className="text-xs text-gray-500">Workouts</p>
+              <p className="text-2xl font-bold text-foreground">
+                {workoutsThisWeek}
+              </p>
+              <p className="text-xs text-muted-foreground">Workouts</p>
             </div>
           </div>
         </CardContent>
@@ -35,7 +37,7 @@ export default function QuickStats({
 
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-gray-600">
+          <CardTitle className="text-sm font-medium text-muted-foreground">
             Total Volume
           </CardTitle>
         </CardHeader>
@@ -43,10 +45,10 @@ export default function QuickStats({
           <div className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-brand-mint" />
             <div>
-              <p className="text-2xl font-bold text-brand-charcoal">
+              <p className="text-2xl font-bold text-foreground">
                 {totalVolume} lbs
               </p>
-              <p className="text-xs text-gray-500">This week</p>
+              <p className="text-xs text-muted-foreground">This week</p>
             </div>
           </div>
         </CardContent>
@@ -54,7 +56,7 @@ export default function QuickStats({
 
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-gray-600">
+          <CardTitle className="text-sm font-medium text-muted-foreground">
             Avg Duration
           </CardTitle>
         </CardHeader>
@@ -62,10 +64,10 @@ export default function QuickStats({
           <div className="flex items-center gap-2">
             <Timer className="h-5 w-5 text-brand-ember" />
             <div>
-              <p className="text-2xl font-bold text-brand-charcoal">
+              <p className="text-2xl font-bold text-foreground">
                 {avgDuration} min
               </p>
-              <p className="text-xs text-gray-500">Per session</p>
+              <p className="text-xs text-muted-foreground">Per session</p>
             </div>
           </div>
         </CardContent>
@@ -73,7 +75,7 @@ export default function QuickStats({
 
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-gray-600">
+          <CardTitle className="text-sm font-medium text-muted-foreground">
             Current Streak
           </CardTitle>
         </CardHeader>
@@ -81,10 +83,10 @@ export default function QuickStats({
           <div className="flex items-center gap-2">
             <Calendar className="h-5 w-5 text-brand-mint" />
             <div>
-              <p className="text-2xl font-bold text-brand-charcoal">
+              <p className="text-2xl font-bold text-foreground">
                 {currentStreak} days
               </p>
-              <p className="text-xs text-gray-500">Keep it up!</p>
+              <p className="text-xs text-muted-foreground">Keep it up!</p>
             </div>
           </div>
         </CardContent>

@@ -43,11 +43,11 @@ export default function RecentWorkouts({ workouts = [] }: RecentWorkoutsProps) {
               <Link
                 key={workout.id}
                 href={`/workout/${workout.id}`}
-                className="block p-3 border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-brand-ember cursor-pointer transition-colors"
+                className="block p-3 border border-border rounded-lg hover:bg-accent hover:border-brand-ember cursor-pointer transition-colors"
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="font-semibold text-brand-charcoal">
+                    <h4 className="font-semibold text-brand-charcoal dark:text-gray-100">
                       {workout.name}
                     </h4>
                     <p className="text-xs text-gray-500">
@@ -62,7 +62,7 @@ export default function RecentWorkouts({ workouts = [] }: RecentWorkoutsProps) {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-gray-700">
+                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       {workout.duration} min
                     </p>
                     <p className="text-xs text-gray-500">

@@ -27,7 +27,9 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
   const [rpe, setRpe] = useState(set.rpe?.toString() || "");
   const [isUpdating, setIsUpdating] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const [isConfirmed, setIsConfirmed] = useState(set.weight > 0 || set.reps > 0); // Set is confirmed if it has data
+  const [isConfirmed, setIsConfirmed] = useState(
+    set.weight > 0 || set.reps > 0
+  ); // Set is confirmed if it has data
   const [showTimer, setShowTimer] = useState(false);
 
   const handleUpdate = async () => {
@@ -58,21 +60,18 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
     }
   };
 
-  const handleChange = (
-    setter: (value: string) => void,
-    value: string
-  ) => {
+  const handleChange = (setter: (value: string) => void, value: string) => {
     setter(value);
     setHasChanges(true);
   };
 
   return (
     <>
-      <div className="flex items-center gap-2 p-3 rounded-lg bg-gray-50 border border-gray-200">
+      <div className="flex items-center gap-2 p-3 rounded-lg bg-muted border border-border">
         <div className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-ember text-white font-semibold text-sm">
           {set.set_order}
         </div>
-        
+
         <div className="flex-1 grid grid-cols-3 gap-2">
           <div>
             <Input
@@ -85,7 +84,7 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
             />
             <p className="text-xs text-gray-500 text-center mt-1">lbs</p>
           </div>
-          
+
           <div>
             <Input
               type="number"
@@ -97,7 +96,7 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
             />
             <p className="text-xs text-gray-500 text-center mt-1">reps</p>
           </div>
-          
+
           <div>
             <Input
               type="number"
@@ -137,7 +136,7 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
               <Timer className="h-5 w-5" />
             </Button>
           )}
-          
+
           <Button
             size="icon"
             variant="ghost"

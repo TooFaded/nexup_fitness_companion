@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -112,21 +113,27 @@ export default function TrainingTools({ onSelectTool }: TrainingToolsProps) {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="flex gap-2">
+            <div className="space-y-2">
+              <Label htmlFor="weight-input">Weight (lbs)</Label>
               <input
+                id="weight-input"
                 type="number"
                 min={0}
                 value={weight}
                 onChange={(e) => setWeight(Number(e.target.value))}
-                className="border rounded px-3 py-2 w-1/2"
+                className="border border-border rounded px-3 py-2 w-full bg-background text-foreground placeholder:text-muted-foreground"
                 placeholder="Weight (lbs)"
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="reps-input">Reps</Label>
               <input
+                id="reps-input"
                 type="number"
                 min={1}
                 value={reps}
                 onChange={(e) => setReps(Number(e.target.value))}
-                className="border rounded px-3 py-2 w-1/2"
+                className="border border-border rounded px-3 py-2 w-full bg-background text-foreground placeholder:text-muted-foreground"
                 placeholder="Reps"
               />
             </div>
@@ -150,30 +157,41 @@ export default function TrainingTools({ onSelectTool }: TrainingToolsProps) {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="flex gap-2">
-              <input
-                type="number"
-                min={0}
-                value={targetWeight}
-                onChange={(e) => setTargetWeight(Number(e.target.value))}
-                className="border rounded px-3 py-2 w-1/2"
-                placeholder="Target Weight"
-              />
-              <input
-                type="number"
-                min={0}
-                value={barWeight}
-                onChange={(e) => setBarWeight(Number(e.target.value))}
-                className="border rounded px-3 py-2 w-1/2"
-                placeholder="Bar Weight"
-              />
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="target-weight">Target Weight (lbs)</Label>
+                <input
+                  id="target-weight"
+                  type="number"
+                  min={0}
+                  value={targetWeight}
+                  onChange={(e) => setTargetWeight(Number(e.target.value))}
+                  className="border border-border rounded px-3 py-2 w-full bg-background text-foreground placeholder:text-muted-foreground"
+                  placeholder="Target Weight"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="bar-weight">Bar Weight (lbs)</Label>
+                <input
+                  id="bar-weight"
+                  type="number"
+                  min={0}
+                  value={barWeight}
+                  onChange={(e) => setBarWeight(Number(e.target.value))}
+                  className="border border-border rounded px-3 py-2 w-full bg-background text-foreground placeholder:text-muted-foreground"
+                  placeholder="Bar Weight"
+                />
+              </div>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 pt-2">
+              <div className="text-sm font-semibold text-muted-foreground mb-2">
+                Plates per side:
+              </div>
               {plateSizes.map((size) => (
-                <div key={size} className="flex justify-between text-base">
-                  <span>{size} lb plates:</span>
-                  <span className="font-semibold text-brand-charcoal">
-                    {plateResult[size] * 2}
+                <div key={size} className="flex justify-between items-center text-base py-1">
+                  <span className="text-foreground">{size} lb plates:</span>
+                  <span className="font-bold text-lg text-brand-mint">
+                    {plateResult[size]}
                   </span>
                 </div>
               ))}
@@ -202,7 +220,7 @@ export default function TrainingTools({ onSelectTool }: TrainingToolsProps) {
                   setRestTime(Number(e.target.value));
                   setTimerLeft(Number(e.target.value));
                 }}
-                className="border rounded px-3 py-2 w-1/2"
+                className="border border-border rounded px-3 py-2 w-1/2 bg-background text-foreground placeholder:text-muted-foreground"
                 placeholder="Seconds"
               />
               <Button

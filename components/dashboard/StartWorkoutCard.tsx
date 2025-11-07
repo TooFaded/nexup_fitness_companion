@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dumbbell } from "lucide-react";
 import { NewWorkoutModal } from "../modals/NewWorkoutModal";
@@ -16,7 +22,9 @@ interface StartWorkoutCardProps {
   templates?: Template[];
 }
 
-export default function StartWorkoutCard({ templates = [] }: StartWorkoutCardProps) {
+export default function StartWorkoutCard({
+  templates = [],
+}: StartWorkoutCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -29,9 +37,9 @@ export default function StartWorkoutCard({ templates = [] }: StartWorkoutCardPro
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button 
+          <Button
             onClick={() => setModalOpen(true)}
-            className="w-full bg-brand-ember hover:bg-brand-ember/90"
+            className="w-full bg-brand-ember hover:bg-brand-ember/90 text-white"
           >
             <Dumbbell className="mr-2 h-5 w-5" />
             New Workout
