@@ -7,6 +7,7 @@ import StartWorkoutCard from "@/components/dashboard/StartWorkoutCard";
 import QuickTemplates from "@/components/dashboard/QuickTemplates";
 import RecentWorkouts from "@/components/dashboard/RecentWorkouts";
 import TrainingTools from "@/components/dashboard/TrainingTools";
+import MealScanner from "@/components/dashboard/MealScanner";
 import {
   getWorkoutsThisWeek,
   getTotalVolumeThisWeek,
@@ -71,9 +72,13 @@ export default async function Home() {
           <QuickTemplates templates={templates} />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <RecentWorkouts workouts={recentWorkouts} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <MealScanner />
           <TrainingTools />
+        </div>
+
+        <div className="grid grid-cols-1 gap-6">
+          <RecentWorkouts workouts={recentWorkouts} />
         </div>
       </div>
     </main>

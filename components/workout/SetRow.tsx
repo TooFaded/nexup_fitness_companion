@@ -27,27 +27,52 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
   const [rpe, setRpe] = useState(set.rpe?.toString() || "");
   const [isUpdating, setIsUpdating] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const [isConfirmed, setIsConfirmed] = useState(
-    set.weight > 0 || set.reps > 0
-  ); // Set is confirmed if it has data
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
 
   const handleUpdate = async () => {
-    setIsUpdating(true);
-    const result = await updateSet(set.id, workoutId, {
-      weight: parseFloat(weight) || 0,
-      reps: parseInt(reps) || 0,
+    const weightValue = parseFloat(weight) || 0;
+    const repsValue = parseInt(reps) || 0;
+
+    console.log("Attempting to save set:", {
+      setId: set.id,
+      workoutId,
+      weight: weightValue,
+      reps: repsValue,
       rpe: rpe ? parseFloat(rpe) : undefined,
     });
 
-    if (result.error) {
-      console.error("Failed to update set:", result.error);
-    } else {
-      setHasChanges(false);
-      setIsConfirmed(true);
-      // Automatically show timer after confirming a set
-      setShowTimer(true);
+    // Don't save if both weight and reps are 0
+    if (weightValue === 0 && repsValue === 0) {
+      console.warn("Cannot save: both weight and reps are 0");
+      alert("Please enter at least weight or reps before saving");
+      return;
     }
+
+    setIsUpdating(true);
+    
+    try {
+      const result = await updateSet(set.id, workoutId, {
+        weight: weightValue,
+        reps: repsValue,
+        rpe: rpe ? parseFloat(rpe) : undefined,
+      });
+
+      if (result.error) {
+        console.error("Failed to update set:", result.error);
+        alert(`Error saving set: ${result.error}`);
+      } else {
+        console.log("✅ Set updated successfully", result);
+        setHasChanges(false);
+        setIsConfirmed(true);
+        // Automatically show timer after confirming a set
+        setShowTimer(true);
+      }
+    } catch (error) {
+      console.error("Exception during set update:", error);
+      alert(`Unexpected error: ${error}`);
+    }
+    
     setIsUpdating(false);
   };
 

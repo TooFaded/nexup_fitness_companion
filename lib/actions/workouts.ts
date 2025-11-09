@@ -278,24 +278,35 @@ export async function updateSet(
   workoutId: string,
   data: { weight?: number; reps?: number; rpe?: number }
 ) {
+  console.log("updateSet called with:", { setId, workoutId, data });
+  
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
+    console.error("updateSet: User not authenticated");
     return { error: "Not authenticated" };
   }
 
-  const { error } = await supabase.from("sets").update(data).eq("id", setId);
+  console.log("updateSet: User authenticated:", user.id);
+
+  const { data: updatedData, error } = await supabase
+    .from("sets")
+    .update(data)
+    .eq("id", setId)
+    .select();
 
   if (error) {
-    console.error("Error updating set:", error);
-    return { error: "Failed to update set" };
+    console.error("Error updating set in database:", error);
+    return { error: `Failed to update set: ${error.message}` };
   }
 
+  console.log("✅ Set updated successfully:", updatedData);
+
   revalidatePath(`/workout/${workoutId}`);
-  return { success: true };
+  return { success: true, data: updatedData };
 }
 
 export async function deleteSet(setId: string, workoutId: string) {
