@@ -29,7 +29,7 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-background p-4">
-      <div className="w-full max-w-md bg-card rounded-xl shadow-lg p-8 flex flex-col items-center">
+      <div className="w-full max-w-md bg-card dark:bg-dark-card rounded-xl shadow-lg p-8 flex flex-col items-center border border-border">
         <Image
           src="/nexup_logo.svg"
           alt="Nexup Logo"
@@ -44,10 +44,12 @@ export default function LoginPage() {
           height={64}
           className="mb-6 hidden dark:block"
         />
-        <h1 className="text-3xl font-bold text-brand-charcoal mb-2">
+        <h1 className="text-3xl font-bold text-foreground mb-2">
           Sign in to Nexup
         </h1>
-        <p className="text-gray-500 mb-6 text-center">Your fitness companion</p>
+        <p className="text-muted-foreground mb-6 text-center">
+          Your fitness companion
+        </p>
         <form
           className="w-full space-y-4"
           onSubmit={async (e) => {
@@ -58,25 +60,32 @@ export default function LoginPage() {
             }
           }}
         >
-          <Input name="email" type="email" placeholder="Email" required />
+          <Input
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            className="bg-background text-foreground border-border"
+          />
           <Input
             name="password"
             type="password"
             placeholder="Password"
             required
+            className="bg-background text-foreground border-border"
           />
           <Button
             type="submit"
-            className="w-full bg-brand-ember hover:bg-brand-ember/90"
+            className="w-full bg-brand-ember hover:bg-brand-ember/90 text-white"
           >
             Sign In
           </Button>
         </form>
         {error && (
-          <div className="mt-4 text-red-600 text-center text-sm">{error}</div>
+          <div className="mt-4 text-red-500 text-center text-sm">{error}</div>
         )}
         <div className="mt-6 text-center">
-          <span className="text-gray-500">Not signed up yet?</span>{" "}
+          <span className="text-muted-foreground">Not signed up yet?</span>{" "}
           <a
             href="/signup"
             className="text-brand-mint font-medium hover:underline"

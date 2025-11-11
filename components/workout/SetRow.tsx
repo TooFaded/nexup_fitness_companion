@@ -5,7 +5,7 @@ import { Trash2, Check, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { updateSet, deleteSet } from "@/lib/actions/workouts";
-import RestTimer from "./RestTimer";
+import { RestTimer } from "./RestTimer";
 
 interface Set {
   id: string;
