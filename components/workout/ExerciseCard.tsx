@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Trash2, Plus, StickyNote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SetRow } from "./SetRow";
+import { EditableExerciseName } from "./EditableExerciseName";
 import { addSet, deleteExercise } from "@/lib/actions/workouts";
 
 interface Set {
@@ -72,14 +73,16 @@ export function ExerciseCard({ exercise, workoutId }: ExerciseCardProps) {
   return (
     <div className="bg-card rounded-lg border border-border p-4">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-semibold text-gray-900">
-          {exercise.exercise_name}
-        </h3>
+        <EditableExerciseName
+          exerciseId={exercise.id}
+          workoutId={workoutId}
+          initialName={exercise.exercise_name}
+        />
         <Button
           variant="ghost"
           size="icon"
           onClick={handleDeleteExercise}
-          className="h-11 w-11 text-gray-400 hover:text-red-500 hover:bg-red-50"
+          className="h-11 w-11 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 dark:hover:text-red-400"
         >
           <Trash2 className="h-5 w-5" />
         </Button>

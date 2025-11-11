@@ -7,6 +7,7 @@ import { ExerciseCard } from "@/components/workout/ExerciseCard";
 import { AddExerciseDialog } from "@/components/workout/AddExerciseDialog";
 import { FinishWorkoutButton } from "@/components/workout/FinishWorkoutButton";
 import { DeleteWorkoutButton } from "@/components/workout/DeleteWorkoutButton";
+import { EditableWorkoutTitle } from "@/components/workout/EditableWorkoutTitle";
 
 // Force dynamic rendering
 export const dynamic = "force-dynamic";
@@ -115,10 +116,11 @@ export default async function WorkoutPage({ params }: WorkoutPageProps) {
                 </Button>
               </Link>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  {workoutData.name}
-                </h1>
-                <p className="text-sm text-gray-500">
+                <EditableWorkoutTitle
+                  workoutId={workoutData.id}
+                  initialName={workoutData.name}
+                />
+                <p className="text-sm text-muted-foreground">
                   {new Date(workoutData.date).toLocaleDateString("en-US", {
                     weekday: "long",
                     month: "long",

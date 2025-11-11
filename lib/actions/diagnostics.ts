@@ -8,7 +8,9 @@ import { createClient } from "@/lib/supabase/server";
  */
 export async function diagnoseUserAccount() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return { error: "Not authenticated" };
@@ -25,12 +27,14 @@ export async function diagnoseUserAccount() {
   // Check exercises
   const { data: exercises, error: exercisesError } = await supabase
     .from("exercises")
-    .select(`
+    .select(
+      `
       id,
       name,
       workout_id,
       workouts!inner(user_id, name)
-    `)
+    `
+    )
     .eq("workouts.user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(10);
@@ -38,7 +42,8 @@ export async function diagnoseUserAccount() {
   // Check sets
   const { data: sets, error: setsError } = await supabase
     .from("sets")
-    .select(`
+    .select(
+      `
       id,
       exercise_id,
       set_order,
@@ -51,7 +56,8 @@ export async function diagnoseUserAccount() {
         workout_id,
         workouts!inner(user_id)
       )
-    `)
+    `
+    )
     .eq("exercises.workouts.user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(20);
@@ -100,7 +106,9 @@ export async function diagnoseUserAccount() {
  */
 export async function refreshWorkoutData(workoutId: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return { error: "Not authenticated" };
@@ -120,7 +128,8 @@ export async function refreshWorkoutData(workoutId: string) {
   // Get fresh data
   const { data: exercises } = await supabase
     .from("exercises")
-    .select(`
+    .select(
+      `
       id,
       name,
       sets (
@@ -130,7 +139,8 @@ export async function refreshWorkoutData(workoutId: string) {
         reps,
         rpe
       )
-    `)
+    `
+    )
     .eq("workout_id", workoutId)
     .order("exercise_order");
 

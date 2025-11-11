@@ -22,13 +22,16 @@ interface SetRowProps {
 }
 
 export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
-  const [weight, setWeight] = useState(set.weight.toString());
-  const [reps, setReps] = useState(set.reps.toString());
+  const [weight, setWeight] = useState(set.weight === 0 ? "" : set.weight.toString());
+  const [reps, setReps] = useState(set.reps === 0 ? "" : set.reps.toString());
   const [rpe, setRpe] = useState(set.rpe?.toString() || "");
   const [isUpdating, setIsUpdating] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
+
+  // Check if this set has data (not empty) - for newly created sets with pre-filled values
+  const hasData = (weight !== "" && weight !== "0") || (reps !== "" && reps !== "0");
 
   const handleUpdate = async () => {
     const weightValue = parseFloat(weight) || 0;
@@ -50,7 +53,7 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
     }
 
     setIsUpdating(true);
-    
+
     try {
       const result = await updateSet(set.id, workoutId, {
         weight: weightValue,
@@ -72,7 +75,7 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
       console.error("Exception during set update:", error);
       alert(`Unexpected error: ${error}`);
     }
-    
+
     setIsUpdating(false);
   };
 
@@ -102,7 +105,7 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
             <Input
               type="number"
               step="0.5"
-              placeholder="0"
+              placeholder="lbs"
               value={weight}
               onChange={(e) => handleChange(setWeight, e.target.value)}
               className="text-center h-10 text-base"
@@ -114,7 +117,7 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
             <Input
               type="number"
               step="1"
-              placeholder="0"
+              placeholder="reps"
               value={reps}
               onChange={(e) => handleChange(setReps, e.target.value)}
               className="text-center h-10 text-base"
@@ -138,7 +141,7 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
         </div>
 
         <div className="flex flex-col gap-2">
-          {hasChanges && (
+          {(hasChanges || (!isConfirmed && hasData)) && (
             <Button
               size="icon"
               variant="ghost"

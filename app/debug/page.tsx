@@ -24,8 +24,8 @@ export default function DiagnosticPage() {
             <CardTitle>Account Diagnostics</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button 
-              onClick={runDiagnostics} 
+            <Button
+              onClick={runDiagnostics}
               disabled={loading}
               className="bg-brand-ember hover:bg-brand-ember/90 text-white"
             >
@@ -44,7 +44,9 @@ export default function DiagnosticPage() {
                   <h3 className="font-bold mb-2">Workouts</h3>
                   <p className="text-sm">Count: {results.workouts?.count}</p>
                   {results.workouts?.error && (
-                    <p className="text-sm text-red-500">Error: {results.workouts.error}</p>
+                    <p className="text-sm text-red-500">
+                      Error: {results.workouts.error}
+                    </p>
                   )}
                 </div>
 
@@ -52,7 +54,9 @@ export default function DiagnosticPage() {
                   <h3 className="font-bold mb-2">Exercises</h3>
                   <p className="text-sm">Count: {results.exercises?.count}</p>
                   {results.exercises?.error && (
-                    <p className="text-sm text-red-500">Error: {results.exercises.error}</p>
+                    <p className="text-sm text-red-500">
+                      Error: {results.exercises.error}
+                    </p>
                   )}
                 </div>
 
@@ -60,7 +64,9 @@ export default function DiagnosticPage() {
                   <h3 className="font-bold mb-2">Sets</h3>
                   <p className="text-sm">Count: {results.sets?.count}</p>
                   {results.sets?.error && (
-                    <p className="text-sm text-red-500">Error: {results.sets.error}</p>
+                    <p className="text-sm text-red-500">
+                      Error: {results.sets.error}
+                    </p>
                   )}
                   {results.sets?.data && (
                     <details className="mt-2">
@@ -79,7 +85,8 @@ export default function DiagnosticPage() {
                   {results.updateTest ? (
                     <>
                       <p className="text-sm">
-                        Success: {results.updateTest.success ? "✅ Yes" : "❌ No"}
+                        Success:{" "}
+                        {results.updateTest.success ? "✅ Yes" : "❌ No"}
                       </p>
                       {results.updateTest.error && (
                         <p className="text-sm text-red-500">
@@ -88,7 +95,9 @@ export default function DiagnosticPage() {
                       )}
                     </>
                   ) : (
-                    <p className="text-sm text-muted-foreground">No sets to test</p>
+                    <p className="text-sm text-muted-foreground">
+                      No sets to test
+                    </p>
                   )}
                 </div>
 

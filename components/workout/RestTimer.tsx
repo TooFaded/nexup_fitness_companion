@@ -19,6 +19,35 @@ export default function RestTimer({
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Request notification permission on mount
+  useEffect(() => {
+    if ("Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  // Function to send browser notification
+  const sendNotification = () => {
+    if ("Notification" in window && Notification.permission === "granted") {
+      const notification = new Notification("Rest Timer Complete! 💪", {
+        body: "Time to get back to your workout!",
+        icon: "/icon-192x192.png", // You can add an icon
+        badge: "/icon-192x192.png",
+        tag: "rest-timer",
+        requireInteraction: false,
+      });
+
+      // Auto-close notification after 10 seconds
+      setTimeout(() => notification.close(), 10000);
+
+      // Focus window when notification is clicked
+      notification.onclick = () => {
+        window.focus();
+        notification.close();
+      };
+    }
+  };
+
   useEffect(() => {
     if (isRunning && timeLeft > 0) {
       intervalRef.current = setInterval(() => {
@@ -32,6 +61,8 @@ export default function RestTimer({
                 // Ignore autoplay errors
               });
             }
+            // Send browser notification
+            sendNotification();
             return 0;
           }
           return prev - 1;
@@ -92,9 +123,26 @@ export default function RestTimer({
         </button>
 
         {/* Title */}
-        <h3 className="text-lg font-semibold text-brand-charcoal mb-6">
+        <h3 className="text-lg font-semibold text-brand-charcoal mb-2">
           Rest Timer
         </h3>
+
+        {/* Notification status */}
+        {"Notification" in window && Notification.permission === "granted" && (
+          <p className="text-xs text-gray-500 mb-4 text-center">
+            🔔 Notifications enabled
+          </p>
+        )}
+        {"Notification" in window && Notification.permission === "denied" && (
+          <p className="text-xs text-gray-400 mb-4 text-center">
+            Notifications blocked
+          </p>
+        )}
+        {"Notification" in window && Notification.permission === "default" && (
+          <p className="text-xs text-gray-500 mb-4 text-center">
+            Notifications not enabled
+          </p>
+        )}
 
         {/* Circular progress */}
         <div className="relative w-48 h-48 mx-auto mb-6">

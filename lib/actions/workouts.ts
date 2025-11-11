@@ -279,7 +279,7 @@ export async function updateSet(
   data: { weight?: number; reps?: number; rpe?: number }
 ) {
   console.log("updateSet called with:", { setId, workoutId, data });
-  
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -358,4 +358,108 @@ export async function finishWorkout(workoutId: string, startTime: string) {
 
   revalidatePath("/");
   return { success: true };
+}
+
+export async function updateWorkoutName(workoutId: string, name: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "Not authenticated" };
+  }
+
+  const { error } = await supabase
+    .from("workouts")
+    .update({ name })
+    .eq("id", workoutId)
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error("Error updating workout name:", error);
+    return { error: "Failed to update workout name" };
+  }
+
+  revalidatePath(`/workout/${workoutId}`);
+  return { success: true };
+}
+
+export async function updateExerciseName(
+  exerciseId: string,
+  workoutId: string,
+  name: string
+) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "Not authenticated" };
+  }
+
+  // Verify ownership through workout
+  const { data: exercise } = await supabase
+    .from("exercises")
+    .select("workout_id")
+    .eq("id", exerciseId)
+    .single();
+
+  if (!exercise) {
+    return { error: "Exercise not found" };
+  }
+
+  const { data: workout } = await supabase
+    .from("workouts")
+    .select("user_id")
+    .eq("id", exercise.workout_id)
+    .single();
+
+  if (!workout || workout.user_id !== user.id) {
+    return { error: "Unauthorized" };
+  }
+
+  const { error } = await supabase
+    .from("exercises")
+    .update({ exercise_name: name })
+    .eq("id", exerciseId);
+
+  if (error) {
+    console.error("Error updating exercise name:", error);
+    return { error: "Failed to update exercise name" };
+  }
+
+  revalidatePath(`/workout/${workoutId}`);
+  return { success: true };
+}
+
+export async function getUserExerciseHistory() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { exercises: [] };
+  }
+
+  // Get unique exercise names from user's workout history
+  const { data, error } = await supabase
+    .from("exercises")
+    .select("exercise_name, workouts!inner(user_id)")
+    .eq("workouts.user_id", user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching exercise history:", error);
+    return { exercises: [] };
+  }
+
+  // Get unique exercise names (remove duplicates)
+  const uniqueExercises = Array.from(
+    new Set(data.map((e) => e.exercise_name))
+  ).slice(0, 20); // Limit to 20 most recent unique exercises
+
+  return { exercises: uniqueExercises };
 }
