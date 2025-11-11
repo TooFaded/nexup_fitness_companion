@@ -22,7 +22,9 @@ interface SetRowProps {
 }
 
 export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
-  const [weight, setWeight] = useState(set.weight === 0 ? "" : set.weight.toString());
+  const [weight, setWeight] = useState(
+    set.weight === 0 ? "" : set.weight.toString()
+  );
   const [reps, setReps] = useState(set.reps === 0 ? "" : set.reps.toString());
   const [rpe, setRpe] = useState(set.rpe?.toString() || "");
   const [isUpdating, setIsUpdating] = useState(false);
@@ -31,7 +33,8 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
   const [showTimer, setShowTimer] = useState(false);
 
   // Check if this set has data (not empty) - for newly created sets with pre-filled values
-  const hasData = (weight !== "" && weight !== "0") || (reps !== "" && reps !== "0");
+  const hasData =
+    (weight !== "" && weight !== "0") || (reps !== "" && reps !== "0");
 
   const handleUpdate = async () => {
     const weightValue = parseFloat(weight) || 0;

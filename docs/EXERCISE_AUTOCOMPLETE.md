@@ -1,23 +1,27 @@
 # Smart Exercise Selection with Autocomplete
 
 ## Overview
+
 Enhanced the "Add Exercise" dialog with intelligent autocomplete featuring user's exercise history and a comprehensive list of typical gym exercises.
 
 ## Features
 
 ### 1. **Smart Search with Autocomplete**
+
 - Search icon indicator
 - Real-time filtering as you type
 - Shows relevant suggestions instantly
 - Click to select or keep typing custom name
 
 ### 2. **Your History Section**
+
 - **Top Priority**: Your past exercises appear first
 - Shows up to 20 unique exercises from your workout history
 - Most recent exercises prioritized
 - Perfect for quickly repeating your routine
 
 ### 3. **Common Exercises Section**
+
 - Comprehensive list of 50+ typical gym exercises
 - Organized by muscle group:
   - **Chest**: Bench Press, Dumbbell Flyes, Dips, etc.
@@ -30,6 +34,7 @@ Enhanced the "Add Exercise" dialog with intelligent autocomplete featuring user'
 - Shows top 15 matches when searching
 
 ### 4. **Visual Separation**
+
 - **"Your History"** header for personal exercises
 - **Separator line** between sections
 - **"Common Exercises"** header for typical gym exercises
@@ -38,6 +43,7 @@ Enhanced the "Add Exercise" dialog with intelligent autocomplete featuring user'
 ## User Experience
 
 ### How It Works:
+
 1. Click "Add Exercise"
 2. Start typing in the search field
 3. See dropdown with suggestions:
@@ -50,6 +56,7 @@ Enhanced the "Add Exercise" dialog with intelligent autocomplete featuring user'
 7. Click "Add Exercise"
 
 ### Smart Behaviors:
+
 - ✅ **Auto-filter**: Updates as you type
 - ✅ **Click outside**: Closes dropdown
 - ✅ **Escape key**: Closes dropdown
@@ -62,6 +69,7 @@ Enhanced the "Add Exercise" dialog with intelligent autocomplete featuring user'
 ### New Server Action
 
 #### `getUserExerciseHistory()`
+
 ```typescript
 // Returns user's unique exercise names from workout history
 // Limited to 20 most recent unique exercises
@@ -69,7 +77,9 @@ Enhanced the "Add Exercise" dialog with intelligent autocomplete featuring user'
 ```
 
 ### Exercise List
+
 **50+ Pre-defined Exercises:**
+
 - Barbell movements
 - Dumbbell variations
 - Cable exercises
@@ -80,6 +90,7 @@ Enhanced the "Add Exercise" dialog with intelligent autocomplete featuring user'
 ### Component Updates
 
 **AddExerciseDialog.tsx:**
+
 - Search input with icon
 - Dropdown with scrollable list
 - Click-outside detection
@@ -90,6 +101,7 @@ Enhanced the "Add Exercise" dialog with intelligent autocomplete featuring user'
 ## Benefits
 
 ### For Users:
+
 - 🚀 **Faster**: Select from suggestions vs typing
 - 🎯 **Accurate**: No typos or inconsistent naming
 - 📊 **Consistent**: Reuse same exercise names for tracking
@@ -97,6 +109,7 @@ Enhanced the "Add Exercise" dialog with intelligent autocomplete featuring user'
 - 🔄 **Personal**: See your own history first
 
 ### For Data Quality:
+
 - Consistent exercise naming across workouts
 - Better analytics and progress tracking
 - Easier to compare performance over time
@@ -105,6 +118,7 @@ Enhanced the "Add Exercise" dialog with intelligent autocomplete featuring user'
 ## Example Use Cases
 
 ### Scenario 1: Regular Routine
+
 ```
 User types: "bench"
 Dropdown shows:
@@ -119,6 +133,7 @@ Dropdown shows:
 ```
 
 ### Scenario 2: Trying Something New
+
 ```
 User types: "face"
 Dropdown shows:
@@ -127,6 +142,7 @@ Dropdown shows:
 ```
 
 ### Scenario 3: Custom Exercise
+
 ```
 User types: "cable crossover high-to-low"
 No suggestions appear
@@ -137,10 +153,11 @@ Next time, it appears in "Your History"
 ## Technical Details
 
 ### Database Query
+
 ```sql
 -- Fetches unique exercise names from user's workouts
-SELECT DISTINCT exercise_name 
-FROM exercises 
+SELECT DISTINCT exercise_name
+FROM exercises
 JOIN workouts ON workouts.id = exercises.workout_id
 WHERE workouts.user_id = auth.uid()
 ORDER BY exercises.created_at DESC
@@ -148,12 +165,14 @@ LIMIT 20
 ```
 
 ### Filtering Logic
+
 - Case-insensitive search
 - Substring matching
 - User history filtered separately from typical exercises
 - Typical exercises limited to 15 results to prevent overflow
 
 ### Styling
+
 - Fixed max-height with scroll (max-h-80)
 - Hover states for selections
 - Semantic color tokens (bg-card, text-foreground, etc.)
@@ -161,6 +180,7 @@ LIMIT 20
 - Section headers with muted styling
 
 ## Future Enhancements
+
 - [ ] Add muscle group categories in dropdown
 - [ ] Show exercise icons/images
 - [ ] Add "recently used" timestamp

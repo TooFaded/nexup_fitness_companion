@@ -1,13 +1,15 @@
 # Editable Workout & Exercise Titles
 
 ## Overview
+
 Added inline editing capability for both workout titles and exercise names with a clean, hover-to-reveal interface.
 
 ## Features
 
 ### 1. Editable Workout Title
+
 - **Location**: Workout page header
-- **How to Edit**: 
+- **How to Edit**:
   - Hover over workout title
   - Click the pencil icon that appears
   - Edit the name
@@ -15,6 +17,7 @@ Added inline editing capability for both workout titles and exercise names with 
   - Press Escape or click × to cancel
 
 ### 2. Editable Exercise Names
+
 - **Location**: Each exercise card
 - **How to Edit**:
   - Hover over exercise name
@@ -28,6 +31,7 @@ Added inline editing capability for both workout titles and exercise names with 
 ### New Components
 
 #### `EditableWorkoutTitle.tsx`
+
 - Client component for workout title editing
 - Keyboard shortcuts (Enter/Escape)
 - Auto-focus and select on edit
@@ -35,6 +39,7 @@ Added inline editing capability for both workout titles and exercise names with 
 - Reverts on error or cancel
 
 #### `EditableExerciseName.tsx`
+
 - Client component for exercise name editing
 - Same UX patterns as workout title
 - Ownership verification through workout
@@ -42,12 +47,14 @@ Added inline editing capability for both workout titles and exercise names with 
 ### New Server Actions
 
 #### `updateWorkoutName(workoutId, name)`
+
 - Updates workout name in database
 - Verifies user ownership
 - Revalidates workout page
 - Returns success/error
 
 #### `updateExerciseName(exerciseId, workoutId, name)`
+
 - Updates exercise name in database
 - Verifies ownership through workout relationship
 - Revalidates workout page
@@ -56,11 +63,13 @@ Added inline editing capability for both workout titles and exercise names with 
 ### Updated Files
 
 1. **`lib/actions/workouts.ts`**
+
    - Added `updateWorkoutName` function
    - Added `updateExerciseName` function
    - Both with proper authentication and RLS checks
 
 2. **`app/workout/[id]/page.tsx`**
+
    - Replaced static `<h1>` with `<EditableWorkoutTitle>`
    - Imports new component
 
@@ -72,29 +81,35 @@ Added inline editing capability for both workout titles and exercise names with 
 ## User Experience
 
 ### Visual Feedback
+
 - Pencil icon appears on hover (opacity transition)
 - Input field replaces text during edit
 - Check/X buttons for save/cancel
 - Loading state disables inputs during save
 
 ### Keyboard Shortcuts
+
 - **Enter**: Save changes
 - **Escape**: Cancel and revert
 - Auto-select text when editing starts
 
 ### Error Handling
+
 - Console logs errors
 - Reverts to original name on error
 - No changes saved if input is empty
 
 ## Security
+
 - Both functions verify user authentication
 - `updateExerciseName` verifies ownership through workout
 - RLS policies enforce database-level security
 - User can only edit their own workouts/exercises
 
 ## Database Operations
+
 Both operations:
+
 1. Check user authentication
 2. Verify ownership
 3. Update single field
@@ -102,6 +117,7 @@ Both operations:
 5. Return success/error
 
 ## Benefits
+
 - ✅ Fix typos without recreating workouts
 - ✅ Customize exercise names for specificity
 - ✅ Clean, modern inline editing UX
@@ -113,12 +129,14 @@ Both operations:
 ## Usage Examples
 
 ### Workout Title
+
 ```
-Before: "Quick Workout" 
+Before: "Quick Workout"
 After:  "Morning Chest & Triceps"
 ```
 
 ### Exercise Names
+
 ```
 Before: "Bench Press"
 After:  "Flat Barbell Bench Press (Competition Grip)"
@@ -128,6 +146,7 @@ After:  "High Bar Back Squat (Narrow Stance)"
 ```
 
 ## Future Enhancements
+
 - [ ] Add edit history/undo
 - [ ] Allow editing workout notes
 - [ ] Allow editing exercise notes

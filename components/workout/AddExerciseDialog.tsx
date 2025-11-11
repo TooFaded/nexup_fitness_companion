@@ -27,7 +27,7 @@ const TYPICAL_EXERCISES = [
   "Cable Flyes",
   "Push-Ups",
   "Dips",
-  
+
   // Back
   "Deadlift",
   "Barbell Row",
@@ -39,7 +39,7 @@ const TYPICAL_EXERCISES = [
   "Seated Cable Row",
   "Face Pulls",
   "Shrugs",
-  
+
   // Shoulders
   "Overhead Press",
   "Dumbbell Shoulder Press",
@@ -48,7 +48,7 @@ const TYPICAL_EXERCISES = [
   "Front Raises",
   "Rear Delt Flyes",
   "Upright Rows",
-  
+
   // Legs
   "Barbell Squat",
   "Front Squat",
@@ -60,7 +60,7 @@ const TYPICAL_EXERCISES = [
   "Bulgarian Split Squat",
   "Calf Raises",
   "Hip Thrusts",
-  
+
   // Arms
   "Barbell Curl",
   "Dumbbell Curl",
@@ -71,7 +71,7 @@ const TYPICAL_EXERCISES = [
   "Skull Crushers",
   "Overhead Tricep Extension",
   "Close Grip Bench Press",
-  
+
   // Core
   "Plank",
   "Ab Wheel Rollout",
@@ -85,7 +85,10 @@ interface AddExerciseDialogProps {
   trigger?: React.ReactNode;
 }
 
-export function AddExerciseDialog({ workoutId, trigger }: AddExerciseDialogProps) {
+export function AddExerciseDialog({
+  workoutId,
+  trigger,
+}: AddExerciseDialogProps) {
   const [open, setOpen] = useState(false);
   const [exerciseName, setExerciseName] = useState("");
   const [notes, setNotes] = useState("");
@@ -107,7 +110,10 @@ export function AddExerciseDialog({ workoutId, trigger }: AddExerciseDialogProps
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setShowDropdown(false);
       }
     };
@@ -120,7 +126,11 @@ export function AddExerciseDialog({ workoutId, trigger }: AddExerciseDialogProps
     if (!exerciseName.trim()) return;
 
     setIsAdding(true);
-    const result = await addExercise(workoutId, exerciseName.trim(), notes.trim() || undefined);
+    const result = await addExercise(
+      workoutId,
+      exerciseName.trim(),
+      notes.trim() || undefined
+    );
 
     if (result.error) {
       console.error("Failed to add exercise:", result.error);
@@ -149,7 +159,8 @@ export function AddExerciseDialog({ workoutId, trigger }: AddExerciseDialogProps
     exercise.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const hasResults = filteredUserHistory.length > 0 || filteredTypicalExercises.length > 0;
+  const hasResults =
+    filteredUserHistory.length > 0 || filteredTypicalExercises.length > 0;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -213,7 +224,7 @@ export function AddExerciseDialog({ workoutId, trigger }: AddExerciseDialogProps
                           {exercise}
                         </button>
                       ))}
-                      
+
                       {/* Separator */}
                       {filteredTypicalExercises.length > 0 && (
                         <div className="border-t border-border my-1" />
@@ -227,16 +238,18 @@ export function AddExerciseDialog({ workoutId, trigger }: AddExerciseDialogProps
                       <div className="px-3 py-2 text-xs font-semibold text-muted-foreground bg-muted">
                         Common Exercises
                       </div>
-                      {filteredTypicalExercises.slice(0, 15).map((exercise, index) => (
-                        <button
-                          key={`typical-${index}`}
-                          className="w-full text-left px-3 py-2 hover:bg-accent text-sm text-foreground transition-colors"
-                          onClick={() => handleSelectExercise(exercise)}
-                          type="button"
-                        >
-                          {exercise}
-                        </button>
-                      ))}
+                      {filteredTypicalExercises
+                        .slice(0, 15)
+                        .map((exercise, index) => (
+                          <button
+                            key={`typical-${index}`}
+                            className="w-full text-left px-3 py-2 hover:bg-accent text-sm text-foreground transition-colors"
+                            onClick={() => handleSelectExercise(exercise)}
+                            type="button"
+                          >
+                            {exercise}
+                          </button>
+                        ))}
                     </div>
                   )}
                 </div>
