@@ -13,6 +13,7 @@ interface Set {
   weight: number;
   reps: number;
   rpe: number | null;
+  is_confirmed: boolean;
 }
 
 interface SetRowProps {
@@ -29,10 +30,11 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
   const [rpe, setRpe] = useState(set.rpe?.toString() || "");
   const [isUpdating, setIsUpdating] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const [isConfirmed, setIsConfirmed] = useState(false);
+  // Use the is_confirmed value from the database
+  const [isConfirmed, setIsConfirmed] = useState(set.is_confirmed);
   const [showTimer, setShowTimer] = useState(false);
 
-  // Check if this set has data (not empty) - for newly created sets with pre-filled values
+  // Check if set has pre-filled data that needs to be confirmed
   const hasData =
     (weight !== "" && weight !== "0") || (reps !== "" && reps !== "0");
 

@@ -13,6 +13,7 @@ interface Set {
   weight: number;
   reps: number;
   rpe: number | null;
+  is_confirmed: boolean;
 }
 
 interface Exercise {

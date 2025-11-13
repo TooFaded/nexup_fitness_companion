@@ -25,6 +25,7 @@ interface Set {
   weight: number;
   reps: number;
   rpe: number | null;
+  is_confirmed: boolean;
 }
 
 interface Exercise {
@@ -83,7 +84,8 @@ export default async function WorkoutPage({ params }: WorkoutPageProps) {
         set_order,
         weight,
         reps,
-        rpe
+        rpe,
+        is_confirmed
       )
     `
     )
@@ -145,6 +147,7 @@ export default async function WorkoutPage({ params }: WorkoutPageProps) {
               <FinishWorkoutButton
                 workoutId={workoutData.id}
                 startTime={workoutData.time_started}
+                duration={workoutData.duration}
               />
             </div>
           </div>

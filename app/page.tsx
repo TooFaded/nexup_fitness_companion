@@ -3,11 +3,11 @@ import { redirect } from "next/navigation";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import WelcomeSection from "@/components/dashboard/WelcomeSection";
 import QuickStats from "@/components/dashboard/QuickStats";
-import StartWorkoutCard from "@/components/dashboard/StartWorkoutCard";
 import QuickTemplates from "@/components/dashboard/QuickTemplates";
-import RecentWorkouts from "@/components/dashboard/RecentWorkouts";
+import WorkoutSection from "@/components/dashboard/WorkoutSection";
 import TrainingTools from "@/components/dashboard/TrainingTools";
 import MealScanner from "@/components/dashboard/MealScanner";
+import MealLog from "@/components/dashboard/MealLog";
 import {
   getWorkoutsThisWeek,
   getTotalVolumeThisWeek,
@@ -67,18 +67,18 @@ export default async function Home() {
           currentStreak={currentStreak}
         />
 
+        <div className="grid grid-cols-1 gap-6 mb-8">
+          <WorkoutSection templates={templates} workouts={recentWorkouts} />
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <StartWorkoutCard templates={templates} />
           <QuickTemplates templates={templates} />
+          <TrainingTools />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <MealScanner />
-          <TrainingTools />
-        </div>
-
-        <div className="grid grid-cols-1 gap-6">
-          <RecentWorkouts workouts={recentWorkouts} />
+          <MealLog />
         </div>
       </div>
     </main>

@@ -292,9 +292,12 @@ export async function updateSet(
 
   console.log("updateSet: User authenticated:", user.id);
 
+  // Always mark set as confirmed when updating
+  const updateData = { ...data, is_confirmed: true };
+
   const { data: updatedData, error } = await supabase
     .from("sets")
-    .update(data)
+    .update(updateData)
     .eq("id", setId)
     .select();
 

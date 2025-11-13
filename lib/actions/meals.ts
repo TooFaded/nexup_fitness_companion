@@ -64,14 +64,23 @@ Be as accurate as possible with portion sizes. Only return the JSON object, no o
     });
 
     if (!response.ok) {
-      throw new Error("Failed to analyze image");
+      const errorBody = await response.text();
+      console.error("OpenAI API Error:", {
+        status: response.status,
+        statusText: response.statusText,
+        body: errorBody,
+      });
+      throw new Error(`Failed to analyze image: ${response.status} ${response.statusText}`);
     }
 
     const result = await response.json();
     const content = result.choices[0].message.content;
-    
+
+    // Sanitize the response to remove Markdown formatting
+    const sanitizedContent = content.replace(/```json|```/g, "").trim();
+
     // Parse the JSON response
-    const analysis: MealAnalysis = JSON.parse(content);
+    const analysis: MealAnalysis = JSON.parse(sanitizedContent);
 
     // Save to database
     const { error: dbError } = await supabase
@@ -95,7 +104,8 @@ Be as accurate as possible with portion sizes. Only return the JSON object, no o
     return { success: true, data: analysis };
   } catch (error) {
     console.error("Error analyzing meal:", error);
-    return { success: false, error: "Failed to analyze meal photo" };
+    const errorMessage = error instanceof Error ? error.message : "Failed to analyze meal photo";
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -113,6 +123,63 @@ export async function getRecentMeals(limit: number = 10) {
     .limit(limit);
 
   return data || [];
+}
+
+export async function getTodaysMacros() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      totalCalories: 0,
+      totalProtein: 0,
+      totalCarbs: 0,
+      totalFats: 0,
+      mealCount: 0,
+    };
+  }
+
+  // Get today's date range
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const { data } = await supabase
+    .from("meals")
+    .select("calories, protein, carbs, fats")
+    .eq("user_id", user.id)
+    .gte("analyzed_at", today.toISOString())
+    .lt("analyzed_at", tomorrow.toISOString());
+
+  if (!data || data.length === 0) {
+    return {
+      totalCalories: 0,
+      totalProtein: 0,
+      totalCarbs: 0,
+      totalFats: 0,
+      mealCount: 0,
+    };
+  }
+
+  const totals = data.reduce(
+    (acc, meal) => ({
+      totalCalories: acc.totalCalories + (meal.calories || 0),
+      totalProtein: acc.totalProtein + (meal.protein || 0),
+      totalCarbs: acc.totalCarbs + (meal.carbs || 0),
+      totalFats: acc.totalFats + (meal.fats || 0),
+      mealCount: acc.mealCount + 1,
+    }),
+    {
+      totalCalories: 0,
+      totalProtein: 0,
+      totalCarbs: 0,
+      totalFats: 0,
+      mealCount: 0,
+    }
+  );
+
+  return totals;
 }
 
 export async function logManualMeal(mealData: MealAnalysis): Promise<{ success: boolean; error?: string }> {
