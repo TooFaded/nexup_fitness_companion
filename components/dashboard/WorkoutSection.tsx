@@ -43,7 +43,7 @@ export default function WorkoutSection({
     <>
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <CardTitle className="flex items-center gap-2">
                 <Dumbbell className="h-5 w-5 text-brand-ember" />
@@ -55,7 +55,7 @@ export default function WorkoutSection({
             </div>
             <Button
               onClick={() => setModalOpen(true)}
-              className="bg-brand-ember hover:bg-brand-ember/90 text-white"
+              className="bg-brand-ember hover:bg-brand-ember/90 text-white w-full sm:w-auto"
             >
               <Plus className="h-4 w-4 mr-2" />
               New Workout
