@@ -38,10 +38,10 @@ export default function MealLog() {
 
   useEffect(() => {
     loadMeals();
-    
+
     // Auto-refresh every 30 seconds
     const interval = setInterval(loadMeals, 30000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -159,25 +159,33 @@ export default function MealLog() {
                     <p className="font-semibold text-gray-900 dark:text-white">
                       {meal.calories}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">cal</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      cal
+                    </p>
                   </div>
                   <div>
                     <p className="font-semibold text-blue-600 dark:text-blue-400">
                       {meal.protein}g
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">pro</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      pro
+                    </p>
                   </div>
                   <div>
                     <p className="font-semibold text-yellow-600 dark:text-yellow-400">
                       {meal.carbs}g
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">carb</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      carb
+                    </p>
                   </div>
                   <div>
                     <p className="font-semibold text-orange-600 dark:text-orange-400">
                       {meal.fats}g
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">fat</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      fat
+                    </p>
                   </div>
                 </div>
               </div>

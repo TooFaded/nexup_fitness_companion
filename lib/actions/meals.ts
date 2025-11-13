@@ -12,10 +12,14 @@ interface MealAnalysis {
   confidence: string;
 }
 
-export async function analyzeMealPhoto(imageBase64: string): Promise<{ success: boolean; data?: MealAnalysis; error?: string }> {
+export async function analyzeMealPhoto(
+  imageBase64: string
+): Promise<{ success: boolean; data?: MealAnalysis; error?: string }> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return { success: false, error: "Not authenticated" };
@@ -26,7 +30,7 @@ export async function analyzeMealPhoto(imageBase64: string): Promise<{ success: 
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: "gpt-4o",
@@ -48,16 +52,16 @@ Return a JSON object with this exact structure:
   "confidence": "high/medium/low"
 }
 
-Be as accurate as possible with portion sizes. Only return the JSON object, no other text.`
+Be as accurate as possible with portion sizes. Only return the JSON object, no other text.`,
               },
               {
                 type: "image_url",
                 image_url: {
-                  url: `data:image/jpeg;base64,${imageBase64}`
-                }
-              }
-            ]
-          }
+                  url: `data:image/jpeg;base64,${imageBase64}`,
+                },
+              },
+            ],
+          },
         ],
         max_tokens: 500,
       }),
@@ -70,7 +74,9 @@ Be as accurate as possible with portion sizes. Only return the JSON object, no o
         statusText: response.statusText,
         body: errorBody,
       });
-      throw new Error(`Failed to analyze image: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Failed to analyze image: ${response.status} ${response.statusText}`
+      );
     }
 
     const result = await response.json();
@@ -83,18 +89,16 @@ Be as accurate as possible with portion sizes. Only return the JSON object, no o
     const analysis: MealAnalysis = JSON.parse(sanitizedContent);
 
     // Save to database
-    const { error: dbError } = await supabase
-      .from("meals")
-      .insert({
-        user_id: user.id,
-        food_items: analysis.foodItems,
-        calories: analysis.calories,
-        protein: analysis.protein,
-        carbs: analysis.carbs,
-        fats: analysis.fats,
-        confidence: analysis.confidence,
-        analyzed_at: new Date().toISOString(),
-      });
+    const { error: dbError } = await supabase.from("meals").insert({
+      user_id: user.id,
+      food_items: analysis.foodItems,
+      calories: analysis.calories,
+      protein: analysis.protein,
+      carbs: analysis.carbs,
+      fats: analysis.fats,
+      confidence: analysis.confidence,
+      analyzed_at: new Date().toISOString(),
+    });
 
     if (dbError) {
       console.error("Error saving meal:", dbError);
@@ -104,14 +108,17 @@ Be as accurate as possible with portion sizes. Only return the JSON object, no o
     return { success: true, data: analysis };
   } catch (error) {
     console.error("Error analyzing meal:", error);
-    const errorMessage = error instanceof Error ? error.message : "Failed to analyze meal photo";
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to analyze meal photo";
     return { success: false, error: errorMessage };
   }
 }
 
 export async function getRecentMeals(limit: number = 10) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return [];
 
@@ -127,7 +134,9 @@ export async function getRecentMeals(limit: number = 10) {
 
 export async function getTodaysMacros() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return {
@@ -182,28 +191,30 @@ export async function getTodaysMacros() {
   return totals;
 }
 
-export async function logManualMeal(mealData: MealAnalysis): Promise<{ success: boolean; error?: string }> {
+export async function logManualMeal(
+  mealData: MealAnalysis
+): Promise<{ success: boolean; error?: string }> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return { success: false, error: "Not authenticated" };
     }
 
     // Save to database
-    const { error: dbError } = await supabase
-      .from("meals")
-      .insert({
-        user_id: user.id,
-        food_items: mealData.foodItems,
-        calories: mealData.calories,
-        protein: mealData.protein,
-        carbs: mealData.carbs,
-        fats: mealData.fats,
-        confidence: mealData.confidence,
-        analyzed_at: new Date().toISOString(),
-      });
+    const { error: dbError } = await supabase.from("meals").insert({
+      user_id: user.id,
+      food_items: mealData.foodItems,
+      calories: mealData.calories,
+      protein: mealData.protein,
+      carbs: mealData.carbs,
+      fats: mealData.fats,
+      confidence: mealData.confidence,
+      analyzed_at: new Date().toISOString(),
+    });
 
     if (dbError) {
       console.error("Error saving meal:", dbError);

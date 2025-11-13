@@ -116,7 +116,8 @@ export default function WorkoutSection({
                         {workout.duration} min
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
-                        {workout.exercises} {workout.exercises === 1 ? 'exercise' : 'exercises'}
+                        {workout.exercises}{" "}
+                        {workout.exercises === 1 ? "exercise" : "exercises"}
                       </p>
                     </div>
                   </div>
