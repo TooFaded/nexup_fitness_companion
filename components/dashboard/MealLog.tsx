@@ -73,7 +73,7 @@ export default function MealLog() {
   return (
     <Card className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Today's Nutrition</h2>
+        <h2 className="text-xl font-semibold">Today&apos;s Nutrition</h2>
         <Button
           variant="ghost"
           size="sm"
