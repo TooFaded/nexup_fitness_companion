@@ -4,7 +4,7 @@ const nextConfig = {
   // basePath: '',
   experimental: {
     serverActions: {
-      bodySizeLimit: "5mb", // Increase from default 1MB to 5MB for meal photos
+      bodySizeLimit: "10mb", // Increase to 10MB to account for base64 encoding overhead
     },
   },
   // Allow cross-origin requests from local network devices (for mobile testing)

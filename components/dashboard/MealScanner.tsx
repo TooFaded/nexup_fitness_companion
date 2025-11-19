@@ -40,6 +40,47 @@ export default function MealScanner() {
   const [manualCarbs, setManualCarbs] = useState("");
   const [manualFats, setManualFats] = useState("");
 
+  // Compress image to reduce file size
+  const compressImage = async (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          let width = img.width;
+          let height = img.height;
+
+          // Resize if image is too large (max 1920px on longest side)
+          const maxSize = 1920;
+          if (width > maxSize || height > maxSize) {
+            if (width > height) {
+              height = (height / width) * maxSize;
+              width = maxSize;
+            } else {
+              width = (width / height) * maxSize;
+              height = maxSize;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext("2d");
+          ctx?.drawImage(img, 0, 0, width, height);
+
+          // Convert to JPEG with quality 0.8 (good balance between quality and size)
+          const base64 = canvas.toDataURL("image/jpeg", 0.8);
+          resolve(base64.split(",")[1]);
+        };
+        img.onerror = reject;
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -52,29 +93,19 @@ export default function MealScanner() {
       return;
     }
 
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setError("Image size must be less than 5MB");
-      return;
-    }
-
     setError(null);
     setAnalysis(null);
-    setViewMode("photo");
-
-    // Create preview
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-
-    // Convert to base64 and analyze
     setIsAnalyzing(true);
-    const base64Reader = new FileReader();
-    base64Reader.onloadend = async () => {
-      const base64String = (base64Reader.result as string).split(",")[1];
 
+    try {
+      // Compress and get base64
+      const base64String = await compressImage(file);
+
+      // Create preview from compressed image
+      setPreviewUrl(`data:image/jpeg;base64,${base64String}`);
+      setViewMode("photo");
+
+      // Analyze the meal photo
       const result = await analyzeMealPhoto(base64String);
 
       setIsAnalyzing(false);
@@ -84,8 +115,11 @@ export default function MealScanner() {
       } else {
         setError(result.error || "Failed to analyze meal");
       }
-    };
-    base64Reader.readAsDataURL(file);
+    } catch (error) {
+      console.error("Error processing image:", error);
+      setError("Failed to process image. Please try again.");
+      setIsAnalyzing(false);
+    }
   };
 
   const handleButtonClick = () => {
@@ -166,9 +200,19 @@ export default function MealScanner() {
             <Button
               onClick={handleButtonClick}
               className="w-full bg-brand-mint hover:bg-brand-mint/90 text-white"
+              disabled={isAnalyzing}
             >
-              <Upload className="mr-2 h-4 w-4" />
-              Upload Meal Photo
+              {isAnalyzing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Loading Image...
+                </>
+              ) : (
+                <>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Upload Meal Photo
+                </>
+              )}
             </Button>
 
             <div className="relative">
@@ -184,6 +228,7 @@ export default function MealScanner() {
               onClick={() => setViewMode("manual")}
               variant="outline"
               className="w-full"
+              disabled={isAnalyzing}
             >
               <Edit className="mr-2 h-4 w-4" />
               Manually Log Food
