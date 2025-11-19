@@ -60,6 +60,7 @@ export default function MealScanner() {
 
     setError(null);
     setAnalysis(null);
+    setViewMode("photo");
 
     // Create preview
     const reader = new FileReader();
@@ -156,7 +157,6 @@ export default function MealScanner() {
           ref={fileInputRef}
           type="file"
           accept="image/*"
-          capture="environment"
           onChange={handleFileSelect}
           className="hidden"
         />
@@ -164,10 +164,7 @@ export default function MealScanner() {
         {viewMode === "initial" && (
           <div className="space-y-3">
             <Button
-              onClick={() => {
-                setViewMode("photo");
-                handleButtonClick();
-              }}
+              onClick={handleButtonClick}
               className="w-full bg-brand-mint hover:bg-brand-mint/90 text-white"
             >
               <Upload className="mr-2 h-4 w-4" />
@@ -291,11 +288,23 @@ export default function MealScanner() {
 
         {viewMode === "photo" && previewUrl && (
           <div className="space-y-4">
-            <img
-              src={previewUrl}
-              alt="Meal preview"
-              className="w-full rounded-lg object-cover max-h-64"
-            />
+            <div className="relative">
+              <img
+                src={previewUrl}
+                alt="Meal preview"
+                className="w-full rounded-lg object-cover max-h-64"
+              />
+              {!analysis && !isAnalyzing && (
+                <Button
+                  onClick={resetScanner}
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm hover:bg-background"
+                >
+                  ✕
+                </Button>
+              )}
+            </div>
 
             {isAnalyzing && (
               <div className="flex items-center justify-center gap-2 text-muted-foreground">
@@ -307,6 +316,14 @@ export default function MealScanner() {
             {error && (
               <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
                 <p className="text-red-500 text-sm">{error}</p>
+                <Button
+                  onClick={resetScanner}
+                  variant="outline"
+                  size="sm"
+                  className="w-full mt-3"
+                >
+                  Try Again
+                </Button>
               </div>
             )}
 
