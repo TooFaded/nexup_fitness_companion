@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { updateSet, deleteSet } from "@/lib/actions/workouts";
 import { RestTimer } from "./RestTimer";
+import { RestTimerConfirmDialog } from "./RestTimerConfirmDialog";
 
 interface Set {
   id: string;
@@ -33,6 +34,8 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
   // Use the is_confirmed value from the database
   const [isConfirmed, setIsConfirmed] = useState(set.is_confirmed);
   const [showTimer, setShowTimer] = useState(false);
+  const [showTimerDialog, setShowTimerDialog] = useState(false);
+  const [useTimerForWorkout, setUseTimerForWorkout] = useState<boolean | null>(null);
 
   // Check if set has pre-filled data that needs to be confirmed
   const hasData =
@@ -73,8 +76,15 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
         console.log("✅ Set updated successfully", result);
         setHasChanges(false);
         setIsConfirmed(true);
-        // Automatically show timer after confirming a set
-        setShowTimer(true);
+        
+        // Show timer dialog only if we haven't asked yet for this workout session
+        if (useTimerForWorkout === null) {
+          setShowTimerDialog(true);
+        } else if (useTimerForWorkout === true) {
+          // User previously chose to use timer for this workout
+          setShowTimer(true);
+        }
+        // If useTimerForWorkout is false, don't show timer
       }
     } catch (error) {
       console.error("Exception during set update:", error);
@@ -182,6 +192,17 @@ export function SetRow({ set, workoutId, onDelete }: SetRowProps) {
       </div>
 
       {showTimer && <RestTimer onClose={() => setShowTimer(false)} />}
+      
+      <RestTimerConfirmDialog
+        open={showTimerDialog}
+        onOpenChange={setShowTimerDialog}
+        onConfirm={(startTimer) => {
+          setUseTimerForWorkout(startTimer);
+          if (startTimer) {
+            setShowTimer(true);
+          }
+        }}
+      />
     </>
   );
 }

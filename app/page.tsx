@@ -49,7 +49,7 @@ export default async function Home() {
     getTotalVolumeThisWeek(),
     getAverageDuration(),
     getCurrentStreak(),
-    getRecentWorkouts(5),
+    getRecentWorkouts(8),
     getUserTemplates(),
   ]);
 

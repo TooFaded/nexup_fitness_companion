@@ -51,7 +51,7 @@ export default function RecentWorkouts({ workouts = [] }: RecentWorkoutsProps) {
                       {workout.name}
                     </h4>
                     <p className="text-xs text-gray-500">
-                      {workout.date} •{" "}
+                      {new Date(workout.date).toLocaleDateString()} •{" "}
                       {new Date(workout.time_started).toLocaleTimeString(
                         "en-US",
                         {

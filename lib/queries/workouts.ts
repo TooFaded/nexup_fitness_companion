@@ -35,12 +35,14 @@ export async function getRecentWorkouts(limit: number = 10) {
     return [];
   }
 
+  // Return raw ISO strings and let client components format them
+  // This ensures timezone is handled correctly in the user's browser
   return data.map((workout) => ({
     id: workout.id,
     name: workout.name,
-    date: new Date(workout.date).toLocaleDateString(),
+    date: workout.date, // Keep as ISO string
     time_started: workout.time_started,
-    duration: workout.duration || 0,
+    duration: workout.duration ?? null,
     exercises: workout.exercises?.length || 0,
   }));
 }
@@ -333,4 +335,45 @@ export async function getPersonalRecords(exerciseName?: string) {
   }
 
   return data;
+}
+
+export async function getAllWorkouts() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return [];
+
+  const { data, error } = await supabase
+    .from("workouts")
+    .select(
+      `
+      id,
+      name,
+      date,
+      time_started,
+      duration,
+      exercises (
+        id
+      )
+    `
+    )
+    .eq("user_id", user.id)
+    .order("date", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching all workouts:", error);
+    return [];
+  }
+
+  // Return raw ISO strings and let client components format them
+  return data.map((workout) => ({
+    id: workout.id,
+    name: workout.name,
+    date: workout.date, // Keep as ISO string
+    time_started: workout.time_started,
+    duration: workout.duration ?? null,
+    exercises: workout.exercises?.length || 0,
+  }));
 }

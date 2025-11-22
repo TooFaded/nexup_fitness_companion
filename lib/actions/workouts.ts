@@ -18,8 +18,10 @@ export async function createWorkout({ name, templateId }: CreateWorkoutParams) {
     return { error: "Not authenticated" };
   }
 
-  // Create the workout
+  // Create the workout with current timestamp
+  // Using ISO string ensures proper timezone handling across all environments
   const now = new Date().toISOString();
+  
   const { data: workout, error: workoutError } = await supabase
     .from("workouts")
     .insert({
