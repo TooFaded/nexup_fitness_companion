@@ -8,6 +8,7 @@ import { AddExerciseDialog } from "@/components/workout/AddExerciseDialog";
 import { FinishWorkoutButton } from "@/components/workout/FinishWorkoutButton";
 import { DeleteWorkoutButton } from "@/components/workout/DeleteWorkoutButton";
 import { EditableWorkoutTitle } from "@/components/workout/EditableWorkoutTitle";
+import { WorkoutDateTime } from "@/components/workout/WorkoutDateTime";
 
 // Force dynamic rendering
 export const dynamic = "force-dynamic";
@@ -122,21 +123,10 @@ export default async function WorkoutPage({ params }: WorkoutPageProps) {
                   workoutId={workoutData.id}
                   initialName={workoutData.name}
                 />
-                <p className="text-sm text-muted-foreground">
-                  {new Date(workoutData.date).toLocaleDateString("en-US", {
-                    weekday: "long",
-                    month: "long",
-                    day: "numeric",
-                  })}{" "}
-                  •{" "}
-                  {new Date(workoutData.time_started).toLocaleTimeString(
-                    "en-US",
-                    {
-                      hour: "numeric",
-                      minute: "2-digit",
-                    }
-                  )}
-                </p>
+                <WorkoutDateTime
+                  date={workoutData.date}
+                  timeStarted={workoutData.time_started}
+                />
               </div>
             </div>
             <div className="flex items-center gap-2">
